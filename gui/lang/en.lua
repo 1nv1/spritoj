@@ -6,6 +6,7 @@ return {
     menu_file = "File",
     menu_help = "Help",
     menu_help_about = "About",
+    menu_help_about_msg = "Spritoj try to be a good tool to work with sprites.",
     menu_help_exit = "Exit",
     menu_help_exit_msg = "Exit from Spritoj?"
   }
