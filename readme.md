@@ -4,6 +4,8 @@
 
 Tool to work with sprites.
 
+![Publish](resources/info/publish.png)
+
 ## License
 
 Spritoj is licensed under the zlib/libpng license. For more information, please read license.txt.
