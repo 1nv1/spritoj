@@ -154,12 +154,11 @@ function love.load()
 		end
 	end
 
-	local image = love.graphics.newImage("resources/background.png")
-	image:setWrap("repeat", "repeat")
-	local width = love.graphics.getWidth()
-	local height = love.graphics.getHeight()
-	spritoj.bgquad = love.graphics.newQuad(0, 0, width, height, image:getWidth(), image:getHeight())
-	spritoj.bgimage = image
+	spritoj.image = love.graphics.newImage("resources/background.png")
+	spritoj.image:setWrap("repeat", "repeat")
+  --local width = love.graphics.getWidth()
+	--local height = love.graphics.getHeight()
+
 
 	-- create demo gui
 	spritoj.CreateToolbar()
@@ -173,12 +172,18 @@ function love.update(dt)
   spritoj.toolbar:SetSize(width, 35)
   spritoj.skinslist:SetPos(width - 250, 5)
   spritoj.menu_trigger:SetPos(width - 105, 5)
+  spritoj.centerarea = {5, 40, width, height}
+  if spritoj.lastHeight ~= height then
+    spritoj.actionslist:SetSize(250, height - 35)
+  end
   if spritoj.lastWidth ~= width then
     spritoj.tween_open:responsive({x = width - 250})
     spritoj.tween_close:responsive({x = width - 5})
     spritoj.tween_move:responsive({x = width - spritoj.actionslist.lastWidth})
     spritoj.tween = spritoj.tween_move
     spritoj.tween:reset()
+    spritoj.bgquad = love.graphics.newQuad(0, 0, width, height, spritoj.image:getWidth(), spritoj.image:getHeight())
+    spritoj.bgimage = spritoj.image
   end
   if spritoj.tween then
 		if spritoj.tween:update(dt) then spritoj.tween = nil end
@@ -189,7 +194,7 @@ end
 
 function love.draw()
 	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.draw(spritoj.bgimage, spritoj.bgquad, 0, 0)
+  love.graphics.draw(spritoj.bgimage, spritoj.bgquad, 0, 0)
 	loveframes.draw()
 end
 
