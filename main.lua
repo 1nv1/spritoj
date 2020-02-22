@@ -161,7 +161,11 @@ function love.load()
 
   -- Progress bar
   mainwin.mario = newCharacter("resources/sprites","mario", "png", 0.1, "Stance")
+  mainwin.mario:setDirection("Forward")
+  mainwin.mario:setAction("Walking")
   mainwin.mario.x = 0
+  mainwin.mario.jump = false
+  mainwin.mario.xjump = love.math.random()
 
   -- Languages
   i18n.loadFile('resources/lang/en.lua') -- load English language file
@@ -222,14 +226,27 @@ function love.update(dt)
 		if mainwin.tween:update(dt) then mainwin.tween = nil end
 	end
 
-  mainwin.mario.x = mainwin.mario.x + 100 * dt
-  local des = width - mainwin.mario.x + 26
+  local mario = mainwin.mario
+  mario.x = mario.x + 100 * dt
+  local des = width - mario.x + 26
   if des < 0 then
-    mainwin.mario.x = des
+    mario.x = des
+    mario.xjump = love.math.random(0, width)
   end
-  mainwin.mario:update(dt)
-  mainwin.mario:setAction("Walking")
-  mainwin.mario:setDirection("Forward")
+  if mario.x >= mario.xjump and mario.x < mario.xjump * 1.2 and mario.jump == false then
+    mario.jump = true
+    mario:setAction("Jump")
+  end
+  if mario.jump == true then
+    local dy = math.sin(2 * math.pi * (love.timer.getTime()))
+    mario.y = mario.y - 5 * dy
+    if mario.y > (height - 36) then
+      mario.y = height - 32
+      mario.jump = false
+      mario:setAction("Walking")
+    end
+  end
+  mario:update(dt)
 
   mainwin.lastWidth = width
   mainwin.lastHeight = height
