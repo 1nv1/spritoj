@@ -1,18 +1,18 @@
 
 local loveframes
 local tween
-local spritoj = {}
+local mainwin = {}
 
-function spritoj.CreateToolbar()
+function mainwin.CreateToolbar()
 	local width = love.graphics.getWidth()
 	local version = loveframes.version
 	local stage = loveframes.stage
 
-	spritoj.toolbar = loveframes.Create("panel")
-	spritoj.toolbar:SetSize(width, 35)
-	spritoj.toolbar:SetPos(0, 0)
+	mainwin.toolbar = loveframes.Create("panel")
+	mainwin.toolbar:SetSize(width, 35)
+	mainwin.toolbar:SetPos(0, 0)
 
-	local info = loveframes.Create("text", spritoj.toolbar)
+	local info = loveframes.Create("text", mainwin.toolbar)
 	info:SetPos(5, 3)
 	info:SetText({
 		{color = {0, 0, 0, 1}},
@@ -59,22 +59,22 @@ function spritoj.RegisterActions(action)
 	end
 end
 
-function spritoj.CreateActionsList()
-	local actions = spritoj.actions
+function mainwin.CreateActionsList()
+	local actions = mainwin.actions
 	local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
 
-	spritoj.actionslist = loveframes.Create("list")
-	spritoj.actionslist:SetPos(width - 250, 35)
-  spritoj.actionslist.lastWidth = 250
-	spritoj.actionslist:SetSize(250, height - 35)
-	spritoj.actionslist:SetPadding(5)
-	spritoj.actionslist:SetSpacing(5)
-	spritoj.actionslist.toggled = true
+	mainwin.actionslist = loveframes.Create("list")
+	mainwin.actionslist:SetPos(width - 250, 35)
+  mainwin.actionslist.lastWidth = 250
+	mainwin.actionslist:SetSize(250, height - 35)
+	mainwin.actionslist:SetPadding(5)
+	mainwin.actionslist:SetSpacing(5)
+	mainwin.actionslist.toggled = true
 
-	spritoj.tween_open  = tween.new(1, spritoj.actionslist, {x = (width - 250)}, "outBounce")
-	spritoj.tween_close = tween.new(1, spritoj.actionslist, {x = (width - 5)}, "outBounce")
-  spritoj.tween_move = tween.new(1, spritoj.actionslist, {x = (width)}, "outBounce")
+	mainwin.tween_open  = tween.new(1, mainwin.actionslist, {x = (width - 250)}, "outBounce")
+	mainwin.tween_close = tween.new(1, mainwin.actionslist, {x = (width - 5)}, "outBounce")
+  mainwin.tween_move = tween.new(1, mainwin.actionslist, {x = (width)}, "outBounce")
 
 	for k, v in ipairs(actions) do
 		local panelheight = 0
@@ -82,15 +82,15 @@ function spritoj.CreateActionsList()
 		category:SetText(v.category_title)
 		local panel = loveframes.Create("panel")
 		panel.Draw = function() end
-		spritoj.actionslist:AddItem(category)
+		mainwin.actionslist:AddItem(category)
 		for key, value in ipairs(v.registered) do
 			local button = loveframes.Create("button", panel)
 			button:SetWidth(210)
 			button:SetPos(0, panelheight)
 			button:SetText(value.title)
 			button.OnClick = function()
-				value.func(loveframes, spritoj.centerarea)
-				spritoj.current = value
+				value.func(loveframes, mainwin.centerarea)
+				mainwin.current = value
 			end
 			panelheight = panelheight + 30
 		end
@@ -100,23 +100,23 @@ function spritoj.CreateActionsList()
 	end
 end
 
-function spritoj.ToggleActionsList()
-	local toggled = spritoj.actionslist.toggled
+function mainwin.ToggleActionsList()
+	local toggled = mainwin.actionslist.toggled
   local width = love.graphics.getWidth()
   local height = love.graphics.getHeight()
 
 	if not toggled then
-		spritoj.actionslist.toggled = true
-		spritoj.tween = spritoj.tween_open
-    spritoj.actionslist.lastWidth = 250
-		spritoj.menu_trigger:SetText(i18n("menu_trigger_hide"))
+		mainwin.actionslist.toggled = true
+		mainwin.tween = mainwin.tween_open
+    mainwin.actionslist.lastWidth = 250
+		mainwin.menu_trigger:SetText(i18n("menu_trigger_hide"))
 	else
-		spritoj.actionslist.toggled = false
-		spritoj.tween = spritoj.tween_close
-    spritoj.actionslist.lastWidth = 5
-		spritoj.menu_trigger:SetText(i18n("menu_trigger_show"))
+		mainwin.actionslist.toggled = false
+		mainwin.tween = mainwin.tween_close
+    mainwin.actionslist.lastWidth = 5
+		mainwin.menu_trigger:SetText(i18n("menu_trigger_show"))
 	end
-	spritoj.tween:reset()
+	mainwin.tween:reset()
 end
 
 
@@ -221,8 +221,8 @@ function love.keypressed(key, isrepeat)
 		loveframes.config["DEBUG"] = not debug
 	elseif key == "f2" then
 		loveframes.RemoveAll()
-		spritoj.CreateToolbar()
-		spritoj.CreateActionsList()
+		mainwin.CreateToolbar()
+		mainwin.CreateActionsList()
 		--demo.ToggleActionsList()
 	end
 end
