@@ -138,7 +138,7 @@ function love.load()
   i18n = require("libs/i18n")
 	loveframes = require("libs/loveframes")
   lunajson = require("libs/lunajson")
-	tween = require("tween")
+	tween = require("libs/tween")
 
   -- Window custom configuration
   local str = love.filesystem.read("win.json")
