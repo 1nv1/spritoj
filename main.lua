@@ -136,7 +136,7 @@ function love.load()
 	local font = love.graphics.newFont(12)
 	love.graphics.setFont(font)
   i18n = require("libs/i18n")
-	loveframes = require("libs/LoveFrames/loveframes")
+	loveframes = require("libs/loveframes")
   lunajson = require("libs/lunajson")
 	tween = require("tween")
 
