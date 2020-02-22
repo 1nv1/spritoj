@@ -25,31 +25,31 @@ function mainwin.CreateToolbar()
 		{color = {0,  0, 0, 1}}, ": Remove all objects"
 	})
 
-	spritoj.menu_trigger = loveframes.Create("button", spritoj.toolbar)
-	spritoj.menu_trigger:SetPos(spritoj.toolbar:GetWidth() - 105, 5)
-	spritoj.menu_trigger:SetSize(100, 25)
-	spritoj.menu_trigger:SetText(i18n("menu_trigger_hide"))
-	spritoj.menu_trigger.OnClick = function()
-	  spritoj.ToggleActionsList()
+	mainwin.menu_trigger = loveframes.Create("button", mainwin.toolbar)
+	mainwin.menu_trigger:SetPos(mainwin.toolbar:GetWidth() - 105, 5)
+	mainwin.menu_trigger:SetSize(100, 25)
+	mainwin.menu_trigger:SetText(i18n("menu_trigger_hide"))
+	mainwin.menu_trigger.OnClick = function()
+	  mainwin.ToggleActionsList()
 	end
 
-	spritoj.skinslist = loveframes.Create("multichoice", toolbar)
-	spritoj.skinslist:SetPos(spritoj.toolbar:GetWidth() - 250, 5)
-	spritoj.skinslist:SetWidth(140)
-	spritoj.skinslist:SetChoice(i18n("choose_a_skin"))
-	spritoj.skinslist.OnChoiceSelected = function(object, choice)
+	mainwin.skinslist = loveframes.Create("multichoice", toolbar)
+	mainwin.skinslist:SetPos(mainwin.toolbar:GetWidth() - 250, 5)
+	mainwin.skinslist:SetWidth(140)
+	mainwin.skinslist:SetChoice(i18n("choose_a_skin"))
+	mainwin.skinslist.OnChoiceSelected = function(object, choice)
 		loveframes.SetActiveSkin(choice)
 	end
 
 	local skins = loveframes.skins
 	for k, v in pairs(skins) do
-		spritoj.skinslist:AddChoice(v.name)
+		mainwin.skinslist:AddChoice(v.name)
 	end
-	spritoj.skinslist:Sort()
+	mainwin.skinslist:Sort()
 end
 
-function spritoj.RegisterActions(action)
-	local actions = spritoj.actions
+function mainwin.RegisterActions(action)
+	local actions = mainwin.actions
 	local category = action.category
 
 	for k, v in ipairs(actions) do
