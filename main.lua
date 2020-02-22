@@ -8,11 +8,11 @@ function spritoj.CreateToolbar()
 	local version = loveframes.version
 	local stage = loveframes.stage
 
-	local toolbar = loveframes.Create("panel")
-	toolbar:SetSize(width, 35)
-	toolbar:SetPos(0, 0)
+	spritoj.toolbar = loveframes.Create("panel")
+	spritoj.toolbar:SetSize(width, 35)
+	spritoj.toolbar:SetPos(0, 0)
 
-	local info = loveframes.Create("text", toolbar)
+	local info = loveframes.Create("text", spritoj.toolbar)
 	info:SetPos(5, 3)
 	info:SetText({
 		{color = {0, 0, 0, 1}},
@@ -25,27 +25,27 @@ function spritoj.CreateToolbar()
 		{color = {0,  0, 0, 1}}, ": Remove all objects"
 	})
 
-	spritoj.menu_trigger = loveframes.Create("button", toolbar)
-	spritoj.menu_trigger:SetPos(toolbar:GetWidth() - 105, 5)
+	spritoj.menu_trigger = loveframes.Create("button", spritoj.toolbar)
+	spritoj.menu_trigger:SetPos(spritoj.toolbar:GetWidth() - 105, 5)
 	spritoj.menu_trigger:SetSize(100, 25)
 	spritoj.menu_trigger:SetText(i18n("menu_trigger_hide"))
 	spritoj.menu_trigger.OnClick = function()
 	  spritoj.ToggleActionsList()
 	end
 
-	local skinslist = loveframes.Create("multichoice", toolbar)
-	skinslist:SetPos(toolbar:GetWidth() - 250, 5)
-	skinslist:SetWidth(140)
-	skinslist:SetChoice(i18n("choose_a_skin"))
-	skinslist.OnChoiceSelected = function(object, choice)
+	spritoj.skinslist = loveframes.Create("multichoice", toolbar)
+	spritoj.skinslist:SetPos(spritoj.toolbar:GetWidth() - 250, 5)
+	spritoj.skinslist:SetWidth(140)
+	spritoj.skinslist:SetChoice(i18n("choose_a_skin"))
+	spritoj.skinslist.OnChoiceSelected = function(object, choice)
 		loveframes.SetActiveSkin(choice)
 	end
 
 	local skins = loveframes.skins
 	for k, v in pairs(skins) do
-		skinslist:AddChoice(v.name)
+		spritoj.skinslist:AddChoice(v.name)
 	end
-	skinslist:Sort()
+	spritoj.skinslist:Sort()
 end
 
 function spritoj.RegisterActions(action)
@@ -162,8 +162,13 @@ function love.load()
 end
 
 function love.update(dt)
+  local width = love.graphics.getWidth()
+  local height = love.graphics.getHeight()
 	loveframes.update(dt)
-	if spritoj.tween then
+  spritoj.toolbar:SetSize(width, 35)
+  spritoj.skinslist:SetPos(width - 250, 5)
+  spritoj.menu_trigger:SetPos(width - 105, 5)
+  if spritoj.tween then
 		if spritoj.tween:update(dt) then spritoj.tween = nil end
 	end
 end

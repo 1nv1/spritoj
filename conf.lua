@@ -16,5 +16,5 @@ function love.conf(t)
   t.modules.sound    = true
   t.modules.physics  = false
 	t.window.vsync     = false
-	t.window.resizable = false
+	t.window.resizable = true
 end
