@@ -124,11 +124,17 @@ function love.load()
   -- Debug request detect
   if arg[#arg] == "-debug" then require("mobdebug").start() end
 
+  mainwin.cursor = love.mouse.newCursor("resources/normal.png", 0, 0)
 	local font = love.graphics.newFont(12)
 	love.graphics.setFont(font)
   i18n = require("gui/i18nlua/i18n")
 	loveframes = require("gui/LoveFrames/loveframes")
 	tween = require("tween")
+
+  mainwin.cursor = {normal = nil}
+  loveframes.config["ENABLE_SYSTEM_CURSORS"] = false
+  mainwin.cursor.normal = love.mouse.newCursor("resources/normal.png", 0, 0)
+  love.mouse.setCursor(mainwin.cursor.normal)
 
   -- Languages
   i18n.loadFile('gui/lang/en.lua') -- load English language file
@@ -136,63 +142,63 @@ function love.load()
   i18n.setLocale('en')
 
 	-- table to store available actions
-	spritoj.actions = {}
-	spritoj.actions[1] = {category_title = i18n("menu_file"), registered = {}}
-	spritoj.actions[2] = {category_title = i18n("menu_help"), registered = {}}
+	mainwin.actions = {}
+	mainwin.actions[1] = {category_title = i18n("menu_file"), registered = {}}
+	mainwin.actions[2] = {category_title = i18n("menu_help"), registered = {}}
 
-	spritoj.actionslist = nil
-	spritoj.actionsbutton = nil
-	spritoj.tween = nil
-	spritoj.centerarea = {5, 40, 540, 555}
-  spritoj.quit = false
+	mainwin.actionslist = nil
+	mainwin.actionsbutton = nil
+	mainwin.tween = nil
+	mainwin.centerarea = {5, 40, 540, 555}
+  mainwin.quit = false
 
 	local files = loveframes.GetDirectoryContents("actions")
 	local action
 	for k, v in ipairs(files) do
 		if v.extension == "lua" then
 			action = require(v.path.."/"..v.name)
-			spritoj.RegisterActions(action)
+			mainwin.RegisterActions(action)
 		end
 	end
 
-	spritoj.image = love.graphics.newImage("resources/background.png")
-	spritoj.image:setWrap("repeat", "repeat")
+	mainwin.image = love.graphics.newImage("resources/background.png")
+	mainwin.image:setWrap("repeat", "repeat")
 
-	-- create spritoj gui
-	spritoj.CreateToolbar()
-  spritoj.CreateActionsList()
+	-- create mainwin gui
+	mainwin.CreateToolbar()
+  mainwin.CreateActionsList()
 end
 
 function love.update(dt)
   local width = love.graphics.getWidth()
   local height = love.graphics.getHeight()
 	loveframes.update(dt)
-  spritoj.toolbar:SetSize(width, 35)
-  spritoj.skinslist:SetPos(width - 250, 5)
-  spritoj.menu_trigger:SetPos(width - 105, 5)
-  spritoj.centerarea = {5, 40, width, height}
-  if spritoj.lastHeight ~= height then
-    spritoj.actionslist:SetSize(250, height - 35)
+  mainwin.toolbar:SetSize(width, 35)
+  mainwin.skinslist:SetPos(width - 250, 5)
+  mainwin.menu_trigger:SetPos(width - 105, 5)
+  mainwin.centerarea = {5, 40, width, height}
+  if mainwin.lastHeight ~= height then
+    mainwin.actionslist:SetSize(250, height - 35)
   end
-  if spritoj.lastWidth ~= width then
-    spritoj.tween_open:responsive({x = width - 250})
-    spritoj.tween_close:responsive({x = width - 5})
-    spritoj.tween_move:responsive({x = width - spritoj.actionslist.lastWidth})
-    spritoj.tween = spritoj.tween_move
-    spritoj.tween:reset()
-    spritoj.bgquad = love.graphics.newQuad(0, 0, width, height, spritoj.image:getWidth(), spritoj.image:getHeight())
-    spritoj.bgimage = spritoj.image
+  if mainwin.lastWidth ~= width then
+    mainwin.tween_open:responsive({x = width - 250})
+    mainwin.tween_close:responsive({x = width - 5})
+    mainwin.tween_move:responsive({x = width - mainwin.actionslist.lastWidth})
+    mainwin.tween = mainwin.tween_move
+    mainwin.tween:reset()
+    mainwin.bgquad = love.graphics.newQuad(0, 0, width, height, mainwin.image:getWidth(), mainwin.image:getHeight())
+    mainwin.bgimage = mainwin.image
   end
-  if spritoj.tween then
-		if spritoj.tween:update(dt) then spritoj.tween = nil end
+  if mainwin.tween then
+		if mainwin.tween:update(dt) then mainwin.tween = nil end
 	end
-  spritoj.lastWidth = width
-  spritoj.lastHeight = height
+  mainwin.lastWidth = width
+  mainwin.lastHeight = height
 end
 
 function love.draw()
 	love.graphics.setColor(1, 1, 1, 1)
-  love.graphics.draw(spritoj.bgimage, spritoj.bgquad, 0, 0)
+  love.graphics.draw(mainwin.bgimage, mainwin.bgquad, 0, 0)
 	loveframes.draw()
 end
 
