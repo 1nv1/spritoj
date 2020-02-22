@@ -1,0 +1,2 @@
+#!/bin/sh
+zip -ur spritoj.love $(ls -I "build.sh" -R)
