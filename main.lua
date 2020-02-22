@@ -139,6 +139,7 @@ function love.load()
 	loveframes = require("libs/loveframes")
   lunajson = require("libs/lunajson")
 	tween = require("libs/tween")
+  acca = require("libs/acca")
 
   -- Window custom configuration
   local str = love.filesystem.read("win.json")
@@ -153,6 +154,10 @@ function love.load()
   mainwin.cursor.normal = love.mouse.newCursor("resources/normal.png", 0, 0)
   love.mouse.setCursor(mainwin.cursor.normal)
   love.window.setMode(confwin.width, confwin.height, {resizable = true})
+
+  -- Progress bar
+  mainwin.mario = newCharacter("resources/sprites","mario", "png", 0.1, "Stance")
+  mainwin.mario.x = 0
 
   -- Languages
   i18n.loadFile('resources/lang/en.lua') -- load English language file
@@ -198,6 +203,7 @@ function love.update(dt)
   mainwin.centerarea = {5, 40, width, height}
   if mainwin.lastHeight ~= height then
     mainwin.actionslist:SetSize(confwin.actionslist.width, height - 35)
+    mainwin.mario.y = height - 32
   end
   if mainwin.lastWidth ~= width then
     mainwin.tween_open:responsive({x = width - confwin.actionslist.width})
@@ -211,6 +217,16 @@ function love.update(dt)
   if mainwin.tween then
 		if mainwin.tween:update(dt) then mainwin.tween = nil end
 	end
+
+  mainwin.mario.x = mainwin.mario.x + 100 * dt
+  local des = width - mainwin.mario.x + 26
+  if des < 0 then
+    mainwin.mario.x = des
+  end
+  mainwin.mario:update(dt)
+  mainwin.mario:setAction("Walking")
+  mainwin.mario:setDirection("Forward")
+
   mainwin.lastWidth = width
   mainwin.lastHeight = height
 end
@@ -218,6 +234,7 @@ end
 function love.draw()
 	love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(mainwin.bgimage, mainwin.bgquad, 0, 0)
+  mainwin.mario:draw(mainwin.mario.x, mainwin.mario.y, 0, 1, 1)
 	loveframes.draw()
 end
 
