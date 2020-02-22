@@ -5,6 +5,9 @@ local mainwin = {}
 local confwin = {
   width = 800,
   height = 600,
+  x = 0,
+  y = 0,
+  d = 1,
   theme = "Default",
   actionslist = {
     width = 150
@@ -153,7 +156,8 @@ function love.load()
   loveframes.config["ENABLE_SYSTEM_CURSORS"] = false
   mainwin.cursor.normal = love.mouse.newCursor("resources/normal.png", 0, 0)
   love.mouse.setCursor(mainwin.cursor.normal)
-  love.window.setMode(confwin.width, confwin.height, {resizable = true})
+  love.window.setMode(confwin.width, confwin.height, {resizable = true, fullscreen = false, centered = false})
+  love.window.setPosition(confwin.x, confwin.y, confwin.d)
 
   -- Progress bar
   mainwin.mario = newCharacter("resources/sprites","mario", "png", 0.1, "Stance")
