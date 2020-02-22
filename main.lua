@@ -144,6 +144,7 @@ function love.load()
 	spritoj.actionsbutton = nil
 	spritoj.tween = nil
 	spritoj.centerarea = {5, 40, 540, 555}
+  spritoj.quit = false
 
 	local files = loveframes.GetDirectoryContents("actions")
 	local action
@@ -156,11 +157,8 @@ function love.load()
 
 	spritoj.image = love.graphics.newImage("resources/background.png")
 	spritoj.image:setWrap("repeat", "repeat")
-  --local width = love.graphics.getWidth()
-	--local height = love.graphics.getHeight()
 
-
-	-- create demo gui
+	-- create spritoj gui
 	spritoj.CreateToolbar()
   spritoj.CreateActionsList()
 end
@@ -235,4 +233,8 @@ end
 
 function love.textinput(text)
 	loveframes.textinput(text)
+end
+
+function love.quit()
+  return true
 end
