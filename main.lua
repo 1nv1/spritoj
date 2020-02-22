@@ -2,6 +2,14 @@
 local loveframes
 local tween
 local mainwin = {}
+local confwin = {
+  width = 800,
+  height = 600,
+  theme = "Default",
+  actionslist = {
+    width = 150
+  }
+}
 
 function mainwin.CreateToolbar()
 	local width = love.graphics.getWidth()
@@ -34,7 +42,7 @@ function mainwin.CreateToolbar()
 	end
 
 	mainwin.skinslist = loveframes.Create("multichoice", toolbar)
-	mainwin.skinslist:SetPos(mainwin.toolbar:GetWidth() - 250, 5)
+	mainwin.skinslist:SetPos(mainwin.toolbar:GetWidth() - confwin.actionslist.width, 5)
 	mainwin.skinslist:SetWidth(140)
 	mainwin.skinslist:SetChoice(i18n("choose_a_skin"))
 	mainwin.skinslist.OnChoiceSelected = function(object, choice)
@@ -65,14 +73,14 @@ function mainwin.CreateActionsList()
 	local height = love.graphics.getHeight()
 
 	mainwin.actionslist = loveframes.Create("list")
-	mainwin.actionslist:SetPos(width - 250, 35)
-  mainwin.actionslist.lastWidth = 250
-	mainwin.actionslist:SetSize(250, height - 35)
+	mainwin.actionslist:SetPos(width - confwin.actionslist.width, 35)
+  mainwin.actionslist.lastWidth = confwin.actionslist.width
+	mainwin.actionslist:SetSize(confwin.actionslist.width, height - 35)
 	mainwin.actionslist:SetPadding(5)
 	mainwin.actionslist:SetSpacing(5)
 	mainwin.actionslist.toggled = true
 
-	mainwin.tween_open  = tween.new(1, mainwin.actionslist, {x = (width - 250)}, "outBounce")
+	mainwin.tween_open  = tween.new(1, mainwin.actionslist, {x = (width - confwin.actionslist.width)}, "outBounce")
 	mainwin.tween_close = tween.new(1, mainwin.actionslist, {x = (width - 5)}, "outBounce")
   mainwin.tween_move = tween.new(1, mainwin.actionslist, {x = (width)}, "outBounce")
 
@@ -85,11 +93,11 @@ function mainwin.CreateActionsList()
 		mainwin.actionslist:AddItem(category)
 		for key, value in ipairs(v.registered) do
 			local button = loveframes.Create("button", panel)
-			button:SetWidth(210)
+			button:SetWidth(confwin.actionslist.width - 20)
 			button:SetPos(0, panelheight)
 			button:SetText(value.title)
 			button.OnClick = function()
-				value.func(loveframes, mainwin.centerarea)
+				value.func(loveframes, mainwin.centerarea, lunajson, confwin)
 				mainwin.current = value
 			end
 			panelheight = panelheight + 30
@@ -123,28 +131,39 @@ end
 function love.load()
   -- Debug request detect
   if arg[#arg] == "-debug" then require("mobdebug").start() end
-
+  local dir = love.filesystem.getSaveDirectory( )
   mainwin.cursor = love.mouse.newCursor("resources/normal.png", 0, 0)
 	local font = love.graphics.newFont(12)
 	love.graphics.setFont(font)
-  i18n = require("gui/i18nlua/i18n")
-	loveframes = require("gui/LoveFrames/loveframes")
+  i18n = require("libs/i18n")
+	loveframes = require("libs/LoveFrames/loveframes")
+  lunajson = require("libs/lunajson")
 	tween = require("tween")
+
+  -- Window custom configuration
+  local str = love.filesystem.read("win.json")
+  if str then
+    confwin = lunajson.decode(str)
+  else
+    str = nil
+  end
 
   mainwin.cursor = {normal = nil}
   loveframes.config["ENABLE_SYSTEM_CURSORS"] = false
   mainwin.cursor.normal = love.mouse.newCursor("resources/normal.png", 0, 0)
   love.mouse.setCursor(mainwin.cursor.normal)
+  love.window.setMode(confwin.width, confwin.height, {resizable = true})
 
   -- Languages
-  i18n.loadFile('gui/lang/en.lua') -- load English language file
-  i18n.loadFile('gui/lang/sp.lua') -- load Spanish language file
+  i18n.loadFile('resources/lang/en.lua') -- load English language file
+  i18n.loadFile('resources/lang/sp.lua') -- load Spanish language file
   i18n.setLocale('en')
 
 	-- table to store available actions
 	mainwin.actions = {}
 	mainwin.actions[1] = {category_title = i18n("menu_file"), registered = {}}
-	mainwin.actions[2] = {category_title = i18n("menu_help"), registered = {}}
+  mainwin.actions[2] = {category_title = i18n("menu_conf"), registered = {}}
+	mainwin.actions[3] = {category_title = i18n("menu_help"), registered = {}}
 
 	mainwin.actionslist = nil
 	mainwin.actionsbutton = nil
@@ -174,14 +193,14 @@ function love.update(dt)
   local height = love.graphics.getHeight()
 	loveframes.update(dt)
   mainwin.toolbar:SetSize(width, 35)
-  mainwin.skinslist:SetPos(width - 250, 5)
+  mainwin.skinslist:SetPos(width - confwin.actionslist.width - 105, 5)
   mainwin.menu_trigger:SetPos(width - 105, 5)
   mainwin.centerarea = {5, 40, width, height}
   if mainwin.lastHeight ~= height then
-    mainwin.actionslist:SetSize(250, height - 35)
+    mainwin.actionslist:SetSize(confwin.actionslist.width, height - 35)
   end
   if mainwin.lastWidth ~= width then
-    mainwin.tween_open:responsive({x = width - 250})
+    mainwin.tween_open:responsive({x = width - confwin.actionslist.width})
     mainwin.tween_close:responsive({x = width - 5})
     mainwin.tween_move:responsive({x = width - mainwin.actionslist.lastWidth})
     mainwin.tween = mainwin.tween_move

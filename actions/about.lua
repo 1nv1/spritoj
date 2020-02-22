@@ -12,12 +12,12 @@ function action.func(loveframes, centerarea)
 
 	local frame = loveframes.Create("frame")
 	frame:SetName(i18n("menu_help_about"))
-	frame:SetSize(500, 330)
+	frame:SetSize(400, 130)
 	frame:CenterWithinArea(unpack(centerarea))
 
 	local list1 = loveframes.Create("list", frame)
 	list1:SetPos(5, 30)
-	list1:SetSize(490, 290)
+	list1:SetSize(390, 90)
 	list1:SetPadding(5)
 	list1:SetSpacing(5)
 

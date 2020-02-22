@@ -2,7 +2,7 @@ local action = {}
 action.title = i18n("menu_help_exit")
 action.category = i18n("menu_help")
 
-function action.func(loveframes, centerarea)
+function action.func(loveframes, centerarea, lunajson, confwin)
   local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
   love.window.setMode(width, height, {resizable = false})
@@ -18,11 +18,14 @@ function action.func(loveframes, centerarea)
 	button:SetPos(40, 40)
   button:GetParent():SetModal(true)
   button.OnClick = function(object, x, y)
+    local success
+    local message
+    local path = love.filesystem.getSource()
+    local data = lunajson.encode(confwin)
+    success, message = love.filesystem.write("win.json", data)
     os.exit()
   end
   frame.OnClose = function(object)
-    local width = love.graphics.getWidth()
-    local height = love.graphics.getHeight()
     love.window.setMode(width, height, {resizable = true})
   end
 end
