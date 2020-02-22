@@ -1,6 +1,6 @@
 local action = {}
-action.title = i18n("menu_help_exit")
-action.category = i18n("menu_help")
+action.title = i18n("menu_file_exit")
+action.category = i18n("menu_file")
 
 function action.func(loveframes, centerarea, lunajson, confwin)
   local width = love.graphics.getWidth()
@@ -8,7 +8,7 @@ function action.func(loveframes, centerarea, lunajson, confwin)
   love.window.setMode(width, height, {resizable = false})
 
   local frame = loveframes.Create("frame")
-	frame:SetName(i18n("menu_help_exit_msg"))
+	frame:SetName(i18n("menu_file_exit_msg"))
   frame:CenterWithinArea(unpack(centerarea))
   frame:SetSize(200, 80)
 
@@ -21,6 +21,8 @@ function action.func(loveframes, centerarea, lunajson, confwin)
     local success
     local message
     local path = love.filesystem.getSource()
+    confwin.width = width
+    confwin.height = height
     local data = lunajson.encode(confwin)
     success, message = love.filesystem.write("win.json", data)
     os.exit()
