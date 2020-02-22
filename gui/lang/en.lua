@@ -5,6 +5,8 @@ return {
     choose_a_skin = "Choose a skin",
     menu_file = "File",
     menu_help = "Help",
-    menu_help_about = "About..."
+    menu_help_about = "About",
+    menu_help_exit = "Exit",
+    menu_help_exit_msg = "Exit from Spritoj?"
   }
 }

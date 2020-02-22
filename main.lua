@@ -48,13 +48,13 @@ function spritoj.CreateToolbar()
 	skinslist:Sort()
 end
 
-function spritoj.RegisterActions(actions)
+function spritoj.RegisterActions(action)
 	local actions = spritoj.actions
-	local category = actions.category
+	local category = action.category
 
 	for k, v in ipairs(actions) do
 		if v.category_title == category then
-			table.insert(actions[k].registered, actions)
+			table.insert(actions[k].registered, action )
 		end
 	end
 end
@@ -116,14 +116,14 @@ end
 
 
 function love.load()
+  -- Debug request detect
+  if arg[#arg] == "-debug" then require("mobdebug").start() end
+
 	local font = love.graphics.newFont(12)
 	love.graphics.setFont(font)
   i18n = require("gui/i18nlua/i18n")
 	loveframes = require("gui/LoveFrames/loveframes")
 	tween = require("tween")
-
-  -- Debug request detect
-  if arg[#arg] == "-debug" then require("mobdebug").start() end
 
   -- Languages
   i18n.loadFile('gui/lang/en.lua') -- load English language file
@@ -144,7 +144,7 @@ function love.load()
 	local action
 	for k, v in ipairs(files) do
 		if v.extension == "lua" then
-			action = require(v.requirepath)
+			action = require(v.path.."/"..v.name)
 			spritoj.RegisterActions(action)
 		end
 	end
@@ -176,7 +176,7 @@ end
 
 function love.mousepressed(x, y, button)
 	loveframes.mousepressed(x, y, button)
-	local menu = loveframes.hoverobject and loveframes.hoverobject.menu_example
+	local menu = loveframes.hoverobject and loveframes.hoverobject.menu_trigger
 	if menu and button == 2 then
 		menu:SetPos(x, y)
 		menu:SetVisible(true)
