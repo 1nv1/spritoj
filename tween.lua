@@ -344,6 +344,10 @@ function Tween:reset()
   return self:set(0)
 end
 
+function Tween:responsive(target)
+  self.target = target
+end
+
 function Tween:update(dt)
   assert(type(dt) == 'number', "dt must be a number")
   return self:set(self.clock + dt)

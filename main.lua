@@ -66,6 +66,7 @@ function spritoj.CreateActionsList()
 
 	spritoj.actionslist = loveframes.Create("list")
 	spritoj.actionslist:SetPos(width - 250, 35)
+  spritoj.actionslist.lastWidth = 250
 	spritoj.actionslist:SetSize(250, height - 35)
 	spritoj.actionslist:SetPadding(5)
 	spritoj.actionslist:SetSpacing(5)
@@ -73,6 +74,7 @@ function spritoj.CreateActionsList()
 
 	spritoj.tween_open  = tween.new(1, spritoj.actionslist, {x = (width - 250)}, "outBounce")
 	spritoj.tween_close = tween.new(1, spritoj.actionslist, {x = (width - 5)}, "outBounce")
+  spritoj.tween_move = tween.new(1, spritoj.actionslist, {x = (width)}, "outBounce")
 
 	for k, v in ipairs(actions) do
 		local panelheight = 0
@@ -99,16 +101,19 @@ function spritoj.CreateActionsList()
 end
 
 function spritoj.ToggleActionsList()
-
 	local toggled = spritoj.actionslist.toggled
+  local width = love.graphics.getWidth()
+  local height = love.graphics.getHeight()
 
 	if not toggled then
 		spritoj.actionslist.toggled = true
 		spritoj.tween = spritoj.tween_open
+    spritoj.actionslist.lastWidth = 250
 		spritoj.menu_trigger:SetText(i18n("menu_trigger_hide"))
 	else
 		spritoj.actionslist.toggled = false
 		spritoj.tween = spritoj.tween_close
+    spritoj.actionslist.lastWidth = 5
 		spritoj.menu_trigger:SetText(i18n("menu_trigger_show"))
 	end
 	spritoj.tween:reset()
@@ -168,9 +173,18 @@ function love.update(dt)
   spritoj.toolbar:SetSize(width, 35)
   spritoj.skinslist:SetPos(width - 250, 5)
   spritoj.menu_trigger:SetPos(width - 105, 5)
+  if spritoj.lastWidth ~= width then
+    spritoj.tween_open:responsive({x = width - 250})
+    spritoj.tween_close:responsive({x = width - 5})
+    spritoj.tween_move:responsive({x = width - spritoj.actionslist.lastWidth})
+    spritoj.tween = spritoj.tween_move
+    spritoj.tween:reset()
+  end
   if spritoj.tween then
 		if spritoj.tween:update(dt) then spritoj.tween = nil end
 	end
+  spritoj.lastWidth = width
+  spritoj.lastHeight = height
 end
 
 function love.draw()
