@@ -10,15 +10,12 @@ local confwin = {
   y = 0,
   d = 1,
   theme = "Default",
-  actionslist = {
-    width = 150
-  },
-  mario = {
-    animation = true
-  }
+  actionslist = { width = 150 },
+  mario = { animation = true }
 }
 
 function mainwin.CreateToolbar()
+
 	local width = love.graphics.getWidth()
 	local version = loveframes.version
 	local stage = loveframes.stage
