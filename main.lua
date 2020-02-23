@@ -12,6 +12,9 @@ local confwin = {
   theme = "Default",
   actionslist = {
     width = 150
+  },
+  mario = {
+    animation = true
   }
 }
 
@@ -227,27 +230,29 @@ function love.update(dt)
 		if mainwin.tween:update(dt) then mainwin.tween = nil end
 	end
 
-  local mario = mainwin.mario
-  mario.x = mario.x + 100 * dt
-  local des = width - mario.x + 26
-  if des < 0 then
-    mario.x = des
-    mario.xjump = love.math.random(0, width)
-  end
-  if mario.x >= mario.xjump and mario.x < mario.xjump * 1.2 and mario.jump == false then
-    mario.jump = true
-    mario:setAction("Jump")
-  end
-  if mario.jump == true then
-    local dy = math.sin(2 * math.pi * (love.timer.getTime()))
-    mario.y = mario.y - 5 * dy
-    if mario.y > (height - 36) then
-      mario.y = height - 32
-      mario.jump = false
-      mario:setAction("Walking")
+  if confwin.mario.animation == true then
+    local mario = mainwin.mario
+    mario.x = mario.x + 100 * dt
+    local des = width - mario.x + 26
+    if des < 0 then
+      mario.x = des
+      mario.xjump = love.math.random(0, width)
     end
+    if mario.x >= mario.xjump and mario.x < mario.xjump * 1.2 and mario.jump == false then
+      mario.jump = true
+      mario:setAction("Jump")
+    end
+    if mario.jump == true then
+      local dy = math.sin(2 * math.pi * (love.timer.getTime()))
+      mario.y = mario.y - 5 * dy
+      if mario.y > (height - 36) then
+        mario.y = height - 32
+        mario.jump = false
+        mario:setAction("Walking")
+      end
+    end
+    mario:update(dt)
   end
-  mario:update(dt)
 
   mainwin.lastWidth = width
   mainwin.lastHeight = height
@@ -256,7 +261,9 @@ end
 function love.draw()
 	love.graphics.setColor(1, 1, 1, 1)
   love.graphics.draw(mainwin.bgimage, mainwin.bgquad, 0, 0)
-  mainwin.mario:draw(mainwin.mario.x, mainwin.mario.y, 0, 1, 1)
+  if confwin.mario.animation == true then
+    mainwin.mario:draw(mainwin.mario.x, mainwin.mario.y, 0, 1, 1)
+  end
 	loveframes.draw()
 end
 
