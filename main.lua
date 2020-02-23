@@ -1,5 +1,7 @@
 
+
 local loveframes
+local dialogs -- Object with system dialogs
 local uuid
 local tween
 local mainwin = {}
@@ -184,6 +186,10 @@ function love.load()
 	mainwin.tween = nil
 	mainwin.centerarea = {5, 40, 540, 555}
   mainwin.quit = false
+
+  dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea)
+  local exchange = {}
+  dialogs:execute("file", "open", exchange)
 
 	local files = loveframes.GetDirectoryContents("actions")
 	local action
