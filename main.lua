@@ -89,7 +89,7 @@ function mainwin.CreateActionsList()
 
 	mainwin.tween_open  = tween.new(1, mainwin.actionslist, {x = (width - confwin.actionslist.width)}, "outBounce")
 	mainwin.tween_close = tween.new(1, mainwin.actionslist, {x = (width - 5)}, "outBounce")
-  mainwin.tween_move = tween.new(1, mainwin.actionslist, {x = (width)}, "outBounce")
+  mainwin.tween_move = tween.new(1, mainwin.actionslist, {x = (width - 5)}, "outBounce")
 
 	for k, v in ipairs(actions) do
 		local panelheight = 0
