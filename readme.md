@@ -6,6 +6,13 @@ Tool to work with sprites.
 
 ![Publish](resources/info/publish.png)
 
+## Development goals
+
+[checkbox:unchecked] Define Spritoj format, possibly JSON
+[checkbox:unchecked] Class to save data to PNG
+[checkbox:unchecked] Pixel draw action
+[checkbox:unchecked] It'self tool generated icon 
+
 ## License
 
 Spritoj is licensed under the zlib/libpng license. For more information, please read license.txt.
