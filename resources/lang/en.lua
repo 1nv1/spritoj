@@ -7,7 +7,7 @@ return {
     menu_file_exit = "Exit",
     menu_file_exit_msg = "Exit from Spritoj?",
     menu_conf = "Config",
-    menu_conf_win = "Window",
+    menu_conf_win = "Window configuration",
     menu_help = "Help",
     menu_help_about = "About",
     menu_help_about_msg = "Spritoj try to be a good tool to work with sprites."
