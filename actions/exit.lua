@@ -34,7 +34,7 @@ function action.func(loveframes, centerarea, lunajson, confwin, trigger)
   end
 
   frame.OnClose = function(object)
-    if trigger ~= nil then trigger.enabled =  end
+    if trigger ~= nil then trigger.enabled = true end
     love.window.setMode(width, height, {resizable = true, fullscreen = false, centered = false})
     love.window.setPosition(confwin.x, confwin.y, confwin.d)
   end
