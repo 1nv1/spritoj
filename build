@@ -1,2 +1,2 @@
 #!/bin/sh
-zip -ur spritoj.love $(ls) -x "build.sh" -x "resources/info/*"
+zip -ur spritoj.love $(ls) -x "build" -x "resources/info/*" -x "readme.md" -x "license.txt" -x "*.love"
