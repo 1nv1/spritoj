@@ -1,5 +1,6 @@
 
 local loveframes
+local uuid
 local tween
 local mainwin = {}
 local confwin = {
@@ -142,6 +143,7 @@ function love.load()
   lunajson = require("libs/lunajson")
 	tween = require("libs/tween")
   acca = require("libs/acca")
+  uuid = require("libs/uuid")
 
   -- Window custom configuration
   local str = love.filesystem.read("win.json")
