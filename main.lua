@@ -69,7 +69,7 @@ function mainwin.RegisterActions(action)
 
 	for k, v in ipairs(actions) do
 		if v.category_title == category then
-			table.insert(actions[k].registered, action )
+			table.insert(actions[k].registered, action)
 		end
 	end
 end
