@@ -2,7 +2,7 @@ local action = {}
 action.title = i18n("menu_file_exit")
 action.category = i18n("menu_file")
 
-function action.func(loveframes, centerarea, lunajson, confwin)
+function action.func(loveframes, centerarea, lunajson, confwin, button)
 
   local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()

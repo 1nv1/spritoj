@@ -100,8 +100,7 @@ function mainwin.CreateActionsList()
 			button:SetPos(0, panelheight)
 			button:SetText(value.title)
 			button.OnClick = function()
-				value.func(loveframes, mainwin.centerarea, lunajson, confwin)
-				mainwin.current = value
+				value.func(loveframes, mainwin.centerarea, lunajson, confwin, button)
 			end
 			panelheight = panelheight + 30
 		end

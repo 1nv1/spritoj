@@ -1,4 +1,5 @@
 local action = {}
+
 action.title = i18n("menu_help_about")
 action.category = i18n("menu_help")
 
@@ -8,9 +9,11 @@ local message = i18n("menu_help_about_msg")..[[
 Website: https://github.com/1nv1/Spritoj/
 ]]
 
-function action.func(loveframes, centerarea)
+function action.func(loveframes, centerarea, lunajson, confwin, button)
 
-	local frame = loveframes.Create("frame")
+  button.enabled = false
+
+  local frame = loveframes.Create("frame")
 	frame:SetName(i18n("menu_help_about"))
 	frame:SetSize(400, 130)
 	frame:CenterWithinArea(unpack(centerarea))
@@ -27,6 +30,10 @@ function action.func(loveframes, centerarea)
 	text1:SetText(message)
 	text1:SetShadowColor(.8, .8, .8, 1)
 	list1:AddItem(text1)
+
+  frame.OnClose = function(object)
+    button.enabled = true
+  end
 
 end
 
