@@ -8,10 +8,10 @@ Tool to work with sprites.
 
 ## Development goals
 
-[ ] Define Spritoj format, possibly JSON
-[ ] Class to save data to PNG
-[ ] Pixel draw action
-[ ] It'self tool generated icon 
+ [ ] Define Spritoj format, possibly JSON
+ [ ] Class to save data to PNG
+ [ ] Pixel draw action
+ [ ] It'self tool generated icon 
 
 ## License
 
