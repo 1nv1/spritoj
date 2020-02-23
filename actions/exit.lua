@@ -2,7 +2,9 @@ local action = {}
 action.title = i18n("menu_file_exit")
 action.category = i18n("menu_file")
 
-function action.func(loveframes, centerarea, lunajson, confwin, button)
+function action.func(loveframes, centerarea, lunajson, confwin, trigger)
+
+  if trigger ~= nil then trigger.enabled = false end
 
   local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
@@ -32,6 +34,7 @@ function action.func(loveframes, centerarea, lunajson, confwin, button)
   end
 
   frame.OnClose = function(object)
+    if trigger ~= nil then trigger.enabled =  end
     love.window.setMode(width, height, {resizable = true, fullscreen = false, centered = false})
     love.window.setPosition(confwin.x, confwin.y, confwin.d)
   end

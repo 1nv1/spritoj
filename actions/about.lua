@@ -9,9 +9,9 @@ local message = i18n("menu_help_about_msg")..[[
 Website: https://github.com/1nv1/Spritoj/
 ]]
 
-function action.func(loveframes, centerarea, lunajson, confwin, button)
+function action.func(loveframes, centerarea, lunajson, confwin, trigger)
 
-  button.enabled = false
+  if trigger ~= nil then trigger.enabled = false end
 
   local frame = loveframes.Create("frame")
 	frame:SetName(i18n("menu_help_about"))
@@ -32,7 +32,7 @@ function action.func(loveframes, centerarea, lunajson, confwin, button)
 	list1:AddItem(text1)
 
   frame.OnClose = function(object)
-    button.enabled = true
+    if trigger ~= nil then trigger.enabled = true end
   end
 
 end
