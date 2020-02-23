@@ -8,15 +8,17 @@ Tool to work with sprites.
 
 ## Development goals
 
+- [ ] Build dialog system
+- [ ] Create open-file dialog
+- [ ] Create saveas-file dialog
 - [ ] Define Spritoj format, possibly JSON
 - [ ] Class to save data to PNG
 - [ ] Pixel draw action
-- [ ] It'self tool generated icon 
+- [ ] It'self tool generated icon
 
 ## Diaries
 
 I will try update the goals reached in [youtube](https://www.youtube.com/watch?v=T1GBcbxeEOA&list=PLiGrjBX7WMJAWx6LdNlucsiGI7pX2c7Pg)
-
 ## License
 
 Spritoj is licensed under the zlib/libpng license. For more information, please read license.txt.
