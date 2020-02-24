@@ -1,3 +1,6 @@
 [submodule "libs/acca"]
 	path = libs/acca
 	url = https://github.com/1nv1/ACCA.git
+[submodule "libs/plfs"]
+	path = libs/plfs
+	url = https://github.com/1nv1/plfs.git

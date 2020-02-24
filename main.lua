@@ -191,8 +191,9 @@ function love.load()
 	mainwin.centerarea = {5, 40, 540, 555}
   mainwin.quit = false
 
+  lfs = require('libs/plfs'):new()
   dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea)
-  local exchange = { confwin = confwin }
+  local exchange = { confwin = confwin, lfs = lfs }
   dialogs:execute("file", "open", exchange)
 
 	local files = loveframes.GetDirectoryContents("actions")
