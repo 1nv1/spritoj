@@ -175,8 +175,8 @@ function love.load()
   mainwin.mario.xjump = love.math.random()
 
   -- Languages
-  i18n.loadFile('resources/lang/en.lua') -- load English language file
-  i18n.loadFile('resources/lang/sp.lua') -- load Spanish language file
+  i18n.loadFile('resources/lang/en.lua', love.filesystem.load) -- load English language file
+  i18n.loadFile('resources/lang/sp.lua', love.filesystem.load) -- load Spanish language file
   i18n.setLocale('en')
 
 	-- table to store available actions
