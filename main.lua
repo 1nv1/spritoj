@@ -15,7 +15,8 @@ local confwin = {
   theme = "Default",
   actionslist = { width = 150 },
   mario = { animation = true },
-  open = { dir = "" }
+  open = { dir = "" },
+  file = { input = "" }
 }
 
 function mainwin.CreateToolbar()
@@ -193,9 +194,8 @@ function love.load()
 	mainwin.centerarea = {5, 40, 540, 555}
   mainwin.quit = false
 
-  dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea)
   local exchange = { confwin = confwin, lfs = lfs }
-  dialogs:execute("file", "open", exchange)
+  dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea, exchange)
 
 	local files = loveframes.GetDirectoryContents("actions")
 	local action

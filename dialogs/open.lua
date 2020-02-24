@@ -2,13 +2,14 @@ local dialog = {}
 
 dialog.action = "open"
 dialog.category = "file"
+local frame
 
 local function listLoad(loveframes, list, files, exchange)
 
   local button
   list:Clear()
   button = loveframes.Create("button")
-  button:SetText("..")
+  button:SetText(exchange.confwin.open.dir.."..")
   button.OnClick = function(object)
     local pathsep = exchange.lfs.pathsep
     exchange.confwin.open.dir = exchange.confwin.open.dir:gsub(pathsep .. '[^' .. pathsep .. ']+$', '')
@@ -17,12 +18,14 @@ local function listLoad(loveframes, list, files, exchange)
   end
   list:AddItem(button)
   for key, value in ipairs(files) do
-    button = loveframes.Create("button")
+    local button = loveframes.Create("button")
     button:SetText(value.name)
+    button.path = value.path
     if value.mode == "file" then
       button:SetImage("resources/file.png")
       button.OnClick = function(object)
-        return object:GetText()
+        frame:Remove()
+        return nil
       end
     end
     if value.mode == "directory" then
@@ -42,7 +45,7 @@ function dialog.execute(loveframes, centerarea, exchange)
 
   if exchange.trigger ~= nil then exchange.trigger.enabled = false end
 
-  local frame = loveframes.Create("frame")
+  frame = loveframes.Create("frame")
 	frame:SetName("Open file")
   frame:SetSize(400, 300)
   frame:CenterWithinArea(unpack(centerarea))
