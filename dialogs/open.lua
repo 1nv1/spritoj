@@ -6,17 +6,19 @@ dialog.category = "file"
 local function getDirItems(path)
   local i, mode, popen = 0, {}, io.popen
   local t = {}
-  local pfile = popen('ls -l -d -1 "'..path..'"/{*,.*}')
+  local pfile = popen('ls -l -d -1 "'..path..'"/*')
   for line in pfile:lines() do
-    if line:sub(-1) ~= "." and line:sub(-2) ~= ".." then
-     if line:sub(1,1) == "d" then
-       mode = "directory"
-     else
-       mode = "file"
-     end
-     local filename = "/"..string.match(line, "/(.*)")
-     table.insert(t, { path = filename, mode = mode })
+    if line:sub(1,1) == "d" then
+      mode = "directory"
+    else
+      mode = "file"
     end
+    local filename = "/"..string.match(line, "/(.*)")
+    local basename = filename:reverse()
+    local s, e = string.find(basename, "[^/]+", pos)
+    basename = basename:sub(s, e)
+    basename = basename:reverse()
+    table.insert(t, { path = filename, name = basename, mode = mode })
   end
   pfile:close()
   return t
@@ -37,7 +39,7 @@ local function listLoad(loveframes, list, files, exchange)
   list:AddItem(button)
   for key, value in ipairs(files) do
     button = loveframes.Create("button")
-    button:SetText(value.path)
+    button:SetText(value.name)
     if value.mode == "file" then
       button:SetImage("resources/file.png")
       button.OnClick = function(object)
@@ -46,9 +48,9 @@ local function listLoad(loveframes, list, files, exchange)
     end
     if value.mode == "directory" then
       button:SetImage("resources/folder.png")
-      button.dir = value.path
+      button.path = value.path
       button.OnClick = function(object)
-        exchange.confwin.open.dir = object.dir
+        exchange.confwin.open.dir = object.path
         local files = getDirItems(exchange.confwin.open.dir)
         listLoad(loveframes, list, files, exchange)
       end
