@@ -3,27 +3,6 @@ local dialog = {}
 dialog.action = "open"
 dialog.category = "file"
 
-local function getDirItems(path)
-  local i, mode, popen = 0, {}, io.popen
-  local t = {}
-  local pfile = popen('ls -l -d -1 "'..path..'"/*')
-  for line in pfile:lines() do
-    if line:sub(1,1) == "d" then
-      mode = "directory"
-    else
-      mode = "file"
-    end
-    local filename = "/"..string.match(line, "/(.*)")
-    local basename = filename:reverse()
-    local s, e = string.find(basename, "[^/]+", pos)
-    basename = basename:sub(s, e)
-    basename = basename:reverse()
-    table.insert(t, { path = filename, name = basename, mode = mode })
-  end
-  pfile:close()
-  return t
-end
-
 local function listLoad(loveframes, list, files, exchange)
 
   local button
@@ -33,7 +12,7 @@ local function listLoad(loveframes, list, files, exchange)
   button.OnClick = function(object)
     local pathsep = "/"
     exchange.confwin.open.dir = exchange.confwin.open.dir:gsub(pathsep .. '[^' .. pathsep .. ']+$', '')
-    local files = getDirItems(exchange.confwin.open.dir)
+    local files = exchange.lfs:getDirectoryItems(exchange.confwin.open.dir)
     listLoad(loveframes, list, files, exchange)
   end
   list:AddItem(button)
@@ -51,7 +30,7 @@ local function listLoad(loveframes, list, files, exchange)
       button.path = value.path
       button.OnClick = function(object)
         exchange.confwin.open.dir = object.path
-        local files = getDirItems(exchange.confwin.open.dir)
+        local files = exchange.lfs:getDirectoryItems(exchange.confwin.open.dir)
         listLoad(loveframes, list, files, exchange)
       end
     end
@@ -84,7 +63,7 @@ function dialog.execute(loveframes, centerarea, exchange)
     listOfFiles:SetSpacing(5)
 		object:SetSize(frame:GetWidth() - 10, frame:GetHeight() - 35)
 	end
-  local files = getDirItems(exchange.confwin.open.dir)
+  local files = exchange.lfs:getDirectoryItems(exchange.confwin.open.dir)
   local item = listLoad(loveframes, listOfFiles, files, exchange)
 
   frame.OnClose = function(object)
