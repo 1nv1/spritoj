@@ -8,6 +8,7 @@ Tool to work with sprites.
 
 ## Development goals
 
+- [ ] I will try to test the advances in win10
 - [ ] Build dialog system
 - [ ] Create open-file dialog
 - [ ] Create saveas-file dialog
