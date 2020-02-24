@@ -13,7 +13,8 @@ local confwin = {
   d = 1,
   theme = "Default",
   actionslist = { width = 150 },
-  mario = { animation = true }
+  mario = { animation = true },
+  open = { dir = "" }
 }
 
 function mainwin.CreateToolbar()
@@ -103,7 +104,7 @@ function mainwin.CreateActionsList()
 			button:SetPos(0, panelheight)
 			button:SetText(value.title)
 			button.OnClick = function()
-				value.func(loveframes, mainwin.centerarea, lunajson, confwin, button)
+				value.func(loveframes, mainwin.centerarea, lunajson, confwin, button, dialogs)
 			end
 			panelheight = panelheight + 30
 		end
@@ -153,6 +154,7 @@ function love.load()
     confwin = lunajson.decode(str)
   else
     str = nil
+    confwin.open.dir = love.filesystem.getWorkingDirectory()
   end
 
   mainwin.cursor = {normal = nil}
@@ -188,7 +190,7 @@ function love.load()
   mainwin.quit = false
 
   dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea)
-  local exchange = {}
+  local exchange = { confwin = confwin }
   dialogs:execute("file", "open", exchange)
 
 	local files = loveframes.GetDirectoryContents("actions")
