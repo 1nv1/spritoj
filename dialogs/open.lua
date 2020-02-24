@@ -10,7 +10,7 @@ local function listLoad(loveframes, list, files, exchange)
   button = loveframes.Create("button")
   button:SetText("..")
   button.OnClick = function(object)
-    local pathsep = "/"
+    local pathsep = exchange.lfs.pathsep
     exchange.confwin.open.dir = exchange.confwin.open.dir:gsub(pathsep .. '[^' .. pathsep .. ']+$', '')
     local files = exchange.lfs:getDirectoryItems(exchange.confwin.open.dir)
     listLoad(loveframes, list, files, exchange)

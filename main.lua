@@ -148,6 +148,7 @@ function love.load()
 	tween = require("libs/tween")
   acca = require("libs/acca")
   uuid = require("libs/uuid")
+  lfs = require('libs/plfs'):new()
 
   -- Window custom configuration
   local str = love.filesystem.read("win.json")
@@ -156,6 +157,7 @@ function love.load()
   else
     str = nil
     confwin.open.dir = love.filesystem.getWorkingDirectory()
+    confwin.open.dir = lfs:adaptPath(confwin.open.dir)
   end
 
   confwin.pwd = love.filesystem.getWorkingDirectory()
@@ -191,7 +193,6 @@ function love.load()
 	mainwin.centerarea = {5, 40, 540, 555}
   mainwin.quit = false
 
-  lfs = require('libs/plfs'):new()
   dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea)
   local exchange = { confwin = confwin, lfs = lfs }
   dialogs:execute("file", "open", exchange)
