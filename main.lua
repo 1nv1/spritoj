@@ -6,6 +6,7 @@ local uuid
 local tween
 local mainwin = {}
 local confwin = {
+  pwd = "",
   width = 800,
   height = 600,
   x = 0,
@@ -157,6 +158,7 @@ function love.load()
     confwin.open.dir = love.filesystem.getWorkingDirectory()
   end
 
+  confwin.pwd = love.filesystem.getWorkingDirectory()
   mainwin.cursor = {normal = nil}
   loveframes.config["ENABLE_SYSTEM_CURSORS"] = false
   mainwin.cursor.normal = love.mouse.newCursor("resources/normal.png", 0, 0)
