@@ -10,6 +10,10 @@ Tool to work with sprites.
 
 - [ ] I will try to test the advances in win10
 - [ ] Build dialog system
+  - [ ] Signal handler
+  - [ ] Delegate execution
+  - [ ] Open dialog
+  - [ ] Save dialog
 - [ ] Create open-file dialog
 - [ ] Create saveas-file dialog
 - [ ] Define Spritoj format, possibly JSON
