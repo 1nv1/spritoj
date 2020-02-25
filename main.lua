@@ -186,7 +186,8 @@ function love.load()
 	mainwin.actions = {}
 	mainwin.actions[1] = {category_title = i18n("menu_file"), registered = {}}
   mainwin.actions[2] = {category_title = i18n("menu_conf"), registered = {}}
-	mainwin.actions[3] = {category_title = i18n("menu_help"), registered = {}}
+  mainwin.actions[3] = {category_title = i18n("menu_addons"), registered = {}}
+	mainwin.actions[4] = {category_title = i18n("menu_help"), registered = {}}
 
 	mainwin.actionslist = nil
 	mainwin.actionsbutton = nil
