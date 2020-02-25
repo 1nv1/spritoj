@@ -469,7 +469,8 @@ function newobject:mousepressed(x, y, button)
 				if y ~= self.y then
 					self.resizeymod = y - self.y
 				end
-			elseif loveframes.BoundingBox(self.x + self.width - 5, x, self.y + self.height - 5, y, 5, 1, 5, 1) then
+      -- Increase the box to resize this border (x3)
+			elseif loveframes.BoundingBox(self.x + self.width - 5, x, self.y + self.height - 5, y, 10, 15, 10, 15) then
 				self.resizing = true
 				self.resize_mode = "bottom_right"
 				self.resizex = x
@@ -943,7 +944,7 @@ function newobject:SetResizable(bool)
 
 	self.canresize = bool
 	return self
-	
+
 end
 
 --[[---------------------------------------------------------
