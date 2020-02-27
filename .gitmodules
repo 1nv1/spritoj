@@ -4,3 +4,6 @@
 [submodule "libs/plfs"]
 	path = libs/plfs
 	url = https://github.com/1nv1/plfs.git
+[submodule "libs/classic"]
+	path = libs/classic
+	url = https://github.com/rxi/classic.git

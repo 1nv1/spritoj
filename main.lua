@@ -1,4 +1,10 @@
 
+-- Debug request detect
+if arg[#arg] == "-debug" then
+  require("mobdebug").start()
+end
+
+package.path = package.path .. ";libs/classic/?.lua;dialogs/?.lua;"
 
 local loveframes
 local dialogs -- Object with system dialogs
@@ -136,9 +142,7 @@ function mainwin.ToggleActionsList()
 end
 
 
-function love.load()
-  -- Debug request detect
-  if arg[#arg] == "-debug" then require("mobdebug").start() end
+function love.load() 
   local dir = love.filesystem.getSaveDirectory( )
   mainwin.cursor = love.mouse.newCursor("resources/normal.png", 0, 0)
 	local font = love.graphics.newFont(12)
@@ -149,7 +153,7 @@ function love.load()
 	tween = require("libs/tween")
   acca = require("libs/acca")
   uuid = require("libs/uuid")
-  lfs = require('libs/plfs'):new()
+  lfs = require("libs/plfs"):new()
 
   -- Window custom configuration
   local str = love.filesystem.read("win.json")
@@ -196,7 +200,7 @@ function love.load()
   mainwin.quit = false
 
   local exchange = { confwin = confwin, lfs = lfs }
-  dialogs = require('dialogs'):new("dialogs", loveframes, mainwin.centerarea, exchange)
+  dialogs = require('dialogs'):new(loveframes, mainwin.centerarea, exchange)
 
 	local files = loveframes.GetDirectoryContents("actions")
 	local action
