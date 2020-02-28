@@ -4,10 +4,11 @@ if arg[#arg] == "-debug" then
   require("mobdebug").start()
 end
 
-package.path = package.path .. ";libs/classic/?.lua;dialogs/?.lua;"
+package.path = package.path .. ";libs/classic/?.lua;dialogs/?.lua;actions/?.lua;"
 
 local loveframes
 local dialogs -- Object with system dialogs
+local actions
 local uuid
 local tween
 local mainwin = {}
@@ -71,19 +72,7 @@ function mainwin.CreateToolbar()
 	mainwin.skinslist:Sort()
 end
 
-function mainwin.RegisterActions(action)
-	local actions = mainwin.actions
-	local category = action.category
-
-	for k, v in ipairs(actions) do
-		if v.category_title == category then
-			table.insert(actions[k].registered, action)
-		end
-	end
-end
-
 function mainwin.CreateActionsList()
-	local actions = mainwin.actions
 	local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
 
@@ -99,26 +88,26 @@ function mainwin.CreateActionsList()
 	mainwin.tween_close = tween.new(1, mainwin.actionslist, {x = (width - 5)}, "outBounce")
   mainwin.tween_move = tween.new(1, mainwin.actionslist, {x = (width - 5)}, "outBounce")
 
-	for k, v in ipairs(actions) do
-		local panelheight = 0
-		local category = loveframes.Create("collapsiblecategory")
-		category:SetText(v.category_title)
-		local panel = loveframes.Create("panel")
-		panel.Draw = function() end
-		mainwin.actionslist:AddItem(category)
-		for key, value in ipairs(v.registered) do
-			local button = loveframes.Create("button", panel)
-			button:SetWidth(confwin.actionslist.width - 20)
-			button:SetPos(0, panelheight)
-			button:SetText(value.title)
-			button.OnClick = function()
-				value.func(loveframes, mainwin.centerarea, lunajson, confwin, button, dialogs)
-			end
-			panelheight = panelheight + 30
-		end
-		panel:SetHeight(panelheight)
-		category:SetObject(panel)
-		category:SetOpen(true)
+	for key, value in pairs(actions.registered) do
+    local panelheight = 0
+    local category = loveframes.Create("collapsiblecategory")
+    category:SetText(key)
+    local panel = loveframes.Create("panel")
+    panel.Draw = function() end
+    mainwin.actionslist:AddItem(category)
+    for k, v in pairs(value) do
+	    local button = loveframes.Create("button", panel)
+		  button:SetWidth(confwin.actionslist.width - 20)
+		  button:SetPos(0, panelheight)
+		  button:SetText(v.id)
+		  button.OnClick = function()
+		  	v:execute(key, v.id)
+		  end
+      panelheight = panelheight + 30
+      panel:SetHeight(panelheight)
+      category:SetObject(panel)
+      category:SetOpen(true)
+    end
 	end
 end
 
@@ -142,7 +131,7 @@ function mainwin.ToggleActionsList()
 end
 
 
-function love.load() 
+function love.load()
   local dir = love.filesystem.getSaveDirectory( )
   mainwin.cursor = love.mouse.newCursor("resources/normal.png", 0, 0)
 	local font = love.graphics.newFont(12)
@@ -199,17 +188,9 @@ function love.load()
 	mainwin.centerarea = {5, 40, 540, 555}
   mainwin.quit = false
 
-  local exchange = { confwin = confwin, lfs = lfs }
-  dialogs = require('dialogs'):new(loveframes, mainwin.centerarea, exchange)
-
-	local files = loveframes.GetDirectoryContents("actions")
-	local action
-	for k, v in ipairs(files) do
-		if v.extension == "lua" then
-			action = require(v.path.."/"..v.name)
-			mainwin.RegisterActions(action)
-		end
-	end
+  local exchange = { confwin = confwin, lfs = lfs , lunajson = lunajson }
+  dialogs = require("dialogs"):new(loveframes, mainwin.centerarea, exchange)
+  actions = require("actions"):new(loveframes, mainwin.centerarea, dialogs, exchange)
 
 	mainwin.image = love.graphics.newImage("resources/background.png")
 	mainwin.image:setWrap("repeat", "repeat")

@@ -1,7 +1,5 @@
-local action = {}
-
-action.title = i18n("menu_help_about")
-action.category = i18n("menu_help")
+local Object = require("action")
+local about = Object:extend()
 
 local message = i18n("menu_help_about_msg")..[[
 
@@ -9,7 +7,22 @@ local message = i18n("menu_help_about_msg")..[[
 Website: https://github.com/1nv1/Spritoj/
 ]]
 
-function action.func(loveframes, centerarea, lunajson, confwin, trigger)
+function about:new(args)
+  self.id = "About"
+  self.category = "Help"
+  self.loveframes = args.loveframes
+  self.centerarea = args.centerarea
+  self.dialogs = args.dialogs
+  self.exchange = args.exchange
+  return self
+end
+
+function about:execute()
+
+  local loveframes = self.loveframes
+  local centerarea = self.centerarea
+  local dialogs = self.dialogs
+  local exchange = self.exchange
 
   if trigger ~= nil then trigger.enabled = false end
 
@@ -37,4 +50,4 @@ function action.func(loveframes, centerarea, lunajson, confwin, trigger)
 
 end
 
-return action
+return about

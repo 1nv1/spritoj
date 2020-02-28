@@ -7,6 +7,7 @@ return {
     menu_file_exit = "Exit",
     menu_file_exit_msg = "Exit from Spritoj?",
     menu_file_open_image = "Open image",
+    menu_file_image = "Image",
     menu_addons = "Addons",
     menu_conf = "Config",
     menu_conf_win = "Window configuration",

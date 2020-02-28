@@ -42,12 +42,4 @@ function dialog:showFolderItems(list, files, exchange)
   end
 end
 
-function dialog:execute(category, action)
-  for key, value in ipairs(self.registered) do
-    if value.category == category and value.action == action then
-      value.execute(self.loveframes, self.centerarea, self.exchange)
-    end
-  end
-end
-
 return dialog

@@ -24,8 +24,8 @@ function dialogs:new(loveframes, centerarea, exchange, path)
   return self
 end
 
-function dialogs:execute(category, action)
-  self.registered[category..":"..action]:execute(self.loveframes, self.centerarea, self.exchange)
+function dialogs:execute(category, action, title)
+  self.registered[category..":"..action]:execute(title)
 end
 
 return dialogs

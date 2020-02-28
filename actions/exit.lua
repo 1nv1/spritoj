@@ -1,10 +1,27 @@
-local action = {}
-action.title = i18n("menu_file_exit")
-action.category = i18n("menu_file")
+local Object = require("action")
+local exit = Object:extend()
 
-function action.func(loveframes, centerarea, lunajson, confwin, trigger)
+function exit:new(args)
+  self.id = "Exit"
+  self.category = "File"
+  self.loveframes = args.loveframes
+  self.centerarea = args.centerarea
+  self.dialogs = args.dialogs
+  self.exchange = args.exchange
+  return self
+end
 
-  if trigger ~= nil then trigger.enabled = false end
+function exit:execute()
+
+  local loveframes = self.loveframes
+  local centerarea = self.centerarea
+  local exchange = self.exchange
+  local dialogs = self.dialogs
+  local confwin = self.exchange.confwin
+
+  if exchange.trigger ~= nil then
+    exchange.trigger.enabled = false
+  end
 
   local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
@@ -34,11 +51,13 @@ function action.func(loveframes, centerarea, lunajson, confwin, trigger)
   end
 
   frame.OnClose = function(object)
-    if trigger ~= nil then trigger.enabled = true end
+    if exchange.trigger ~= nil then
+      exchange.trigger.enabled = true
+    end
     love.window.setMode(width, height, {resizable = true, fullscreen = false, centered = false})
     love.window.setPosition(confwin.x, confwin.y, confwin.d)
   end
 
 end
 
-return action
+return exit

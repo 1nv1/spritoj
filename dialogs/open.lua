@@ -11,7 +11,7 @@ function dialog_open:new(loveframes, centerarea, exchange)
   return self
 end
 
-function dialog_open:execute()
+function dialog_open:execute(title)
   local exchange = self.exchange
   local loveframes = self.loveframes
   local centerarea = self.centerarea
@@ -19,7 +19,7 @@ function dialog_open:execute()
   if exchange.trigger ~= nil then exchange.trigger.enabled = false end
 
   frame = loveframes.Create("frame")
-	frame:SetName("Open file")
+	frame:SetName(title)
   frame:SetSize(400, 300)
   frame:CenterWithinArea(unpack(centerarea))
   frame:SetResizable(true)
